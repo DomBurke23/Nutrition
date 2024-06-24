@@ -19,28 +19,14 @@ public class NutritionSearchService
 
     public IEnumerable<Food> SearchNutrition(NutritionSearchRequest request)
     {
-        // return all data 
-        var query = LoadFoodsFromCsvFile().AsQueryable();
+        var unsorted =  LoadFoodsFromCsvFile()
+        .Where(food => request.FatRating == null || food.FatRating == request.FatRating)
+        .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
+        .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
+        .Take(request.Limit)
+        .ToList();
 
-        #region Filter 
-        if (request.FatRating != null)
-        {
-            query = query.Where(food => food.FatRating == request.FatRating);
-        }
-
-        if (request.MinCalories != null)
-        {
-            query = query.Where(food => food.Calories >= request.MinCalories.Value);
-        }
-
-        if (request.MaxCalories != null)
-        {
-            query = query.Where(food => food.Calories <= request.MaxCalories.Value);
-        }
-        #endregion 
-
-        var limited = query.Take(request.Limit).ToList();
-        var sorted = SortFoods(limited, request.SortCriteria).ToList();
+        var sorted = SortFoods(unsorted, request.SortCriteria).ToList();
         return sorted;
     }
 
