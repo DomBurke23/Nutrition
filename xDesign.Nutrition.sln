@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xDesign.Nutrition.Api", "xDesign.Nutrition.Api\xDesign.Nutrition.Api.csproj", "{C289BA4F-16DE-48BA-BF73-276A02F6F59D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xDesign.Nutrition.Tests", "xDesign.Nutrition.Tests\xDesign.Nutrition.Tests.csproj", "{C75E9888-7F6F-4FD0-A342-E63DA1270623}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C289BA4F-16DE-48BA-BF73-276A02F6F59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C289BA4F-16DE-48BA-BF73-276A02F6F59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C289BA4F-16DE-48BA-BF73-276A02F6F59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C289BA4F-16DE-48BA-BF73-276A02F6F59D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75E9888-7F6F-4FD0-A342-E63DA1270623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75E9888-7F6F-4FD0-A342-E63DA1270623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75E9888-7F6F-4FD0-A342-E63DA1270623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75E9888-7F6F-4FD0-A342-E63DA1270623}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
