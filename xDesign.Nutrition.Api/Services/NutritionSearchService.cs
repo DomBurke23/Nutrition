@@ -7,7 +7,7 @@ using xDesign.Nutrition.Api.Util;
 
 namespace xDesign.Nutrition.Api.Services;
 
-public class NutritionSearchService
+public class NutritionSearchService : INutritionSearchService
 {
     private readonly string _csvFileName;
 
