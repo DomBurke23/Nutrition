@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -23,10 +22,9 @@ public class NutritionSearchService
         .Where(food => request.FatRating == null || food.FatRating == request.FatRating)
         .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
         .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
-        .Take(request.Limit)
         .ToList();
 
-        var sorted = SortFoods(unsorted, request.SortCriteria).ToList();
+        var sorted = SortFoods(unsorted, request.SortCriteria).Take(request.Limit).ToList();
         return sorted;
     }
 
