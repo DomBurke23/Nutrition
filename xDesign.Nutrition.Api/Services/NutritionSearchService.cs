@@ -24,42 +24,11 @@ public class NutritionSearchService : INutritionSearchService
         .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
         .ToList();
 
-        var sorted = SortFoods(unsorted, request.SortCriteria).Take(request.Limit).ToList();
+        var sortService = new NutritionSortService(); // TODO replace with DI 
+        var sorted = sortService.SortFoods(unsorted, request.SortCriteria).Take(request.Limit).ToList();
         return sorted;
     }
 
-    private static IEnumerable<Food> SortFoods(IEnumerable<Food> unsorted, IList<Sort> requestSortCriteria)
-    {
-        if (!requestSortCriteria.Any())
-        {
-            return unsorted;
-        }
-
-        var firstSortCriteria = requestSortCriteria.First();
-        var sorted = firstSortCriteria.SortOrder == SortOrder.Asc
-            ? unsorted.OrderBy(KeySelector(firstSortCriteria.SortField))
-            : unsorted.OrderByDescending(KeySelector(firstSortCriteria.SortField));
-
-        foreach (var sortCriteria in requestSortCriteria.Skip(1))
-        {
-            sorted = sortCriteria.SortOrder == SortOrder.Asc
-                ? sorted.ThenBy(KeySelector(sortCriteria.SortField))
-                : sorted.ThenByDescending(KeySelector(sortCriteria.SortField));
-        }
-
-        return sorted.ToList();
-    }
-
-    private static Func<Food, object> KeySelector(SortField field)
-    {
-        return field switch
-        {
-            SortField.Name => f => f.Name,
-            SortField.Calories => f => f.Calories,
-            _ => throw new ArgumentOutOfRangeException(nameof(field), field, null)
-        };
-    }
-    
     private IEnumerable<Food> LoadFoodsFromCsvFile()
     {
         using var readStream = File.OpenRead(_csvFileName);
