@@ -12,16 +12,17 @@ builder.Services.AddControllers()
 
 var fileName = builder.Configuration.GetSection("NutritionSearch").GetValue<string>("FileName");
 
-// Register NutritionSortService
+// Register Services
 builder.Services.AddScoped<NutritionSortService>();
-
-// Register NutritionSearchService
+builder.Services.AddScoped<DataLoaderService>();
 builder.Services.AddScoped(serviceProvider =>
 {
     var sortService = serviceProvider.GetRequiredService<NutritionSortService>();
+    var dataLoaderService = serviceProvider.GetRequiredService<DataLoaderService>();
     return new NutritionSearchService(
         fileName ?? throw new ArgumentNullException(nameof(fileName)),
-        sortService
+        sortService,
+        dataLoaderService
     );
 });
 

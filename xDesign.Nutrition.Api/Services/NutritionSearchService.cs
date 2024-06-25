@@ -6,23 +6,25 @@ namespace xDesign.Nutrition.Api.Services;
 public class NutritionSearchService : INutritionSearchService
 {
     private readonly string _fileName;
+    private readonly IDataLoaderService _dataLoaderService;
     private readonly INutritionSortService _sortService;
 
     public NutritionSearchService(string fileName,
-        INutritionSortService sortService)
+        INutritionSortService sortService,
+        IDataLoaderService dataLoaderService)
     {
         _fileName = fileName;
         _sortService = sortService;
+        _dataLoaderService = dataLoaderService;
     }
 
     private IEnumerable<Food> LoadFoods(string extension)
     {
-        var dataLoaderService = new DataLoaderService();
         Func<string, IEnumerable<Food>> loadFunction = extension switch
         {
-            ".csv" => dataLoaderService.LoadFoodsFromCsvFile,
-            ".xml" => dataLoaderService.LoadFoodsFromXmlFile,
-            ".json" => dataLoaderService.LoadFoodsFromJsonFile,
+            ".csv" => _dataLoaderService.LoadFoodsFromCsvFile,
+            ".xml" => _dataLoaderService.LoadFoodsFromXmlFile,
+            ".json" => _dataLoaderService.LoadFoodsFromJsonFile,
             _ => throw new NotSupportedException($"Unsupported file type: {extension}")
         };
 
