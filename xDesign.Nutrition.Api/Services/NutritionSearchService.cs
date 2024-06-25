@@ -6,10 +6,13 @@ namespace xDesign.Nutrition.Api.Services;
 public class NutritionSearchService : INutritionSearchService
 {
     private readonly string _fileName;
+    private readonly INutritionSortService _sortService;
 
-    public NutritionSearchService(string fileName)
+    public NutritionSearchService(string fileName,
+        INutritionSortService sortService)
     {
         _fileName = fileName;
+        _sortService = sortService;
     }
 
     private IEnumerable<Food> LoadFoods(string extension)
@@ -34,8 +37,7 @@ public class NutritionSearchService : INutritionSearchService
             .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
             .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
             .ToList();
-        var sortService = new NutritionSortService(); // TODO replace with DI 
-        var sorted = sortService.SortFoods(unsorted, request.SortCriteria).Take(request.Limit).ToList();
+        var sorted = _sortService.SortFoods(unsorted, request.SortCriteria).Take(request.Limit).ToList();
         return sorted;
     }
 }

@@ -11,7 +11,19 @@ builder.Services.AddControllers()
     });
 
 var fileName = builder.Configuration.GetSection("NutritionSearch").GetValue<string>("FileName");
-builder.Services.AddScoped(_ => new NutritionSearchService(fileName ?? throw new ArgumentNullException("fileName")));
+
+// Register NutritionSortService
+builder.Services.AddScoped<NutritionSortService>();
+
+// Register NutritionSearchService
+builder.Services.AddScoped(serviceProvider =>
+{
+    var sortService = serviceProvider.GetRequiredService<NutritionSortService>();
+    return new NutritionSearchService(
+        fileName ?? throw new ArgumentNullException(nameof(fileName)),
+        sortService
+    );
+});
 
 var app = builder.Build();
 
