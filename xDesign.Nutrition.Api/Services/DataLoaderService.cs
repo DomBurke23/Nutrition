@@ -3,6 +3,8 @@ using CsvHelper;
 using System.Globalization;
 using xDesign.Nutrition.Api.Model;
 using xDesign.Nutrition.Api.Util;
+using System.Text.Json;
+using System.Xml;
 
 namespace xDesign.Nutrition.Api.Services
 {
@@ -52,15 +54,19 @@ namespace xDesign.Nutrition.Api.Services
             return servingSize == "100 g";
         }
 
-        public IEnumerable<Food> LoadFoodsFromJsonFile(string csvFileName)
+        public IEnumerable<Food> LoadFoodsFromJsonFile(string fileName)
         {
             // TODO add logic here 
+            using var jsonFileStream = File.OpenRead(fileName);
+            List<Food> data = JsonSerializer.Deserialize<List<Food>>(jsonFileStream);
             throw new NotImplementedException();
+
         }
 
-        public IEnumerable<Food> LoadFoodsFromXmlFile(string csvFileName)
+        public IEnumerable<Food> LoadFoodsFromXmlFile(string fileName)
         {
             // TODO add logic here 
+            using var xmlReader = XmlReader.Create(fileName);
             throw new NotImplementedException();
         }
     }
