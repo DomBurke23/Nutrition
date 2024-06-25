@@ -5,22 +5,48 @@ namespace xDesign.Nutrition.Api.Services;
 
 public class NutritionSearchService : INutritionSearchService
 {
-    private readonly string _csvFileName;
+    private readonly string _fileName;
 
-    public NutritionSearchService(string csvFileName)
+    public NutritionSearchService(string fileName)
     {
-        _csvFileName = csvFileName;
+        _fileName = fileName;
     }
 
     public IEnumerable<Food> SearchNutrition(NutritionSearchRequest request)
     {
-        // TODO replace with DI instead of creating instance
-        var csvLoaderService = new CsvLoaderService();
-        var unsorted = csvLoaderService.LoadFoodsFromCsvFile(_csvFileName)
-        .Where(food => request.FatRating == null || food.FatRating == request.FatRating)
-        .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
-        .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
-        .ToList();
+        string extension = Path.GetExtension(_fileName).ToLower();
+        var unsorted = new List<Food>();
+        var dataLoaderService = new DataLoaderService();
+        switch (extension)
+        {
+            case ".csv":
+                // TODO replace with DI instead of creating instance
+                unsorted = dataLoaderService.LoadFoodsFromCsvFile(_fileName)
+                .Where(food => request.FatRating == null || food.FatRating == request.FatRating)
+                .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
+                .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
+                .ToList();
+                break;
+            case ".xml":
+                // TODO replace with DI instead of creating instance
+                unsorted = dataLoaderService.LoadFoodsFromXmlFile(_fileName)
+                .Where(food => request.FatRating == null || food.FatRating == request.FatRating)
+                .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
+                .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
+                .ToList();
+                break;
+            case ".json":
+                // TODO replace with DI instead of creating instance
+                unsorted = dataLoaderService.LoadFoodsFromJsonFile(_fileName)
+                .Where(food => request.FatRating == null || food.FatRating == request.FatRating)
+                .Where(food => request.MinCalories == null || food.Calories >= request.MinCalories.Value)
+                .Where(food => request.MaxCalories == null || food.Calories <= request.MaxCalories.Value)
+                .ToList();
+                break;
+            default:
+                Console.WriteLine("Unsupported file type.");
+                throw new NotSupportedException($"Unsupported file type: {extension}");
+        }
 
         var sortService = new NutritionSortService(); // TODO replace with DI 
         var sorted = sortService.SortFoods(unsorted, request.SortCriteria).Take(request.Limit).ToList();

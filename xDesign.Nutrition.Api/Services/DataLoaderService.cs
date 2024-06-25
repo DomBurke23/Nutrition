@@ -6,7 +6,7 @@ using xDesign.Nutrition.Api.Util;
 
 namespace xDesign.Nutrition.Api.Services
 {
-    public class CsvLoaderService : ICsvLoaderService
+    public class DataLoaderService : IDataLoaderService
     {
         public IEnumerable<Food> LoadFoodsFromCsvFile(string _csvFileName)
         {
@@ -50,6 +50,18 @@ namespace xDesign.Nutrition.Api.Services
             }
 
             return servingSize == "100 g";
+        }
+
+        public IEnumerable<Food> LoadFoodsFromJsonFile(string csvFileName)
+        {
+            // TODO add logic here 
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Food> LoadFoodsFromXmlFile(string csvFileName)
+        {
+            // TODO add logic here 
+            throw new NotImplementedException();
         }
     }
 }

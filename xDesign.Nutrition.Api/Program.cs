@@ -10,8 +10,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(new UpperCaseJsonNamingPolicy()));
     });
 
-var csvFileName = builder.Configuration.GetSection("NutritionSearch").GetValue<string>("FileName");
-builder.Services.AddScoped(_ => new NutritionSearchService(csvFileName ?? throw new ArgumentNullException("csvFileName")));
+var fileName = builder.Configuration.GetSection("NutritionSearch").GetValue<string>("FileName");
+builder.Services.AddScoped(_ => new NutritionSearchService(fileName ?? throw new ArgumentNullException("fileName")));
 
 var app = builder.Build();
 
