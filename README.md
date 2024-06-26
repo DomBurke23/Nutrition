@@ -1,5 +1,11 @@
 # Nutrition Data
 
+-- Doms Notes -- 
+all contract tests pass 
+
+and you can still run the code locally and are able to update the url https://localhost:7248/nutrition?fatRating=LOW depending on the nutrition criteria (see tests for examples). 
+
+
 A simple web service which supports searching and sorting nutrition data.  Query results are returned as a list of foods and drinks, formatted as a JSON document.
 
 Data comes from https://www.kaggle.com/datasets/trolukovich/nutritional-values-for-common-foods-and-products?resource=download
