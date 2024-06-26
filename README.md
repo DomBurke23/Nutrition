@@ -2,7 +2,7 @@
 
 -- Doms Notes -- 
 all contract tests pass 
-
+![contractTestsPass](https://github.com/DomBurke23/Nutrition/assets/22835921/5d7f98b0-41ed-4c8c-a809-ac942498bde5)
 and you can still run the code locally and are able to update the url https://localhost:7248/nutrition?fatRating=LOW depending on the nutrition criteria (see tests for examples). 
 
 
