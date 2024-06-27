@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using xDesign.Nutrition.Api.Options;
 using xDesign.Nutrition.Api.Services;
 using xDesign.Nutrition.Api.Util;
 
@@ -10,7 +11,10 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(new UpperCaseJsonNamingPolicy()));
     });
 
-var fileName = builder.Configuration.GetSection("NutritionSearch").GetValue<string>("FileName");
+// .Bind is better as is ensures type safety. Can get multiple values, easy to maintain
+var nutritionOptions = new NutritionOptions();
+builder.Configuration.GetSection("NutritionSearch").Bind(nutritionOptions);
+var fileName = nutritionOptions.FileName;
 
 // Register Services
 builder.Services.AddScoped<NutritionSortService>();
